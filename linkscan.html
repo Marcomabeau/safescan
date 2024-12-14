@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Link Scan</title>
 
-    <!-- Google Analytics -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3896416800491281"
-     crossorigin="anonymous"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3896416800491281" crossorigin="anonymous"></script>
 
     <style>
         body {
@@ -79,12 +78,12 @@
     <script>
         async function showAdAndScanLink() {
             const linkInput = document.querySelector('.input-box').value;
-            if (!linkInput) {
-                alert('Please enter a link to scan.');
+            if (!isValidURL(linkInput)) {
+                alert('Please enter a valid URL.');
                 return;
             }
 
-            // Simulate a Google Ad pop-up
+            // Show Google Ad in Popup
             const adPopup = document.createElement('div');
             adPopup.style.position = 'fixed';
             adPopup.style.top = '0';
@@ -98,14 +97,20 @@
             adPopup.style.alignItems = 'center';
             adPopup.style.justifyContent = 'center';
             adPopup.innerHTML = `
-                <p style="font-size: 20px; margin-bottom: 20px;">This is a Google Ad. Please wait 5 seconds...</p>
-                <button style="padding: 10px 20px; font-size: 16px; background-color: #00a09e; color: #fff; border: none; border-radius: 5px; cursor: pointer; display: none;" onclick="closeAdPopup()">Skip Ad</button>
+                <p style="font-size: 20px; margin-bottom: 20px;">Advertisement</p>
+                <div style="margin-bottom: 20px;">
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-3896416800491281"
+                        data-ad-slot="1234567890"
+                        data-ad-format="auto"></ins>
+                </div>
+                <button style="padding: 10px 20px; font-size: 16px; background-color: #00a09e; color: #fff; border: none; border-radius: 5px; cursor: pointer;" onclick="closeAdPopup()">Skip Ad</button>
             `;
             document.body.appendChild(adPopup);
 
-            setTimeout(() => {
-                adPopup.querySelector('button').style.display = 'block';
-            }, 5000);
+            // Load Google Ad
+            (adsbygoogle = window.adsbygoogle || []).push({});
 
             setTimeout(() => {
                 closeAdPopup();
@@ -122,17 +127,23 @@
         async function runLinkScan(link) {
             const apiKey = 'YOUR_VIRUSTOTAL_API_KEY';
             const url = `https://www.virustotal.com/api/v3/urls`;
-            const encodedLink = btoa(link);
+            const encodedLink = encodeURIComponent(link);
 
-            const response = await fetch(`${url}/${encodedLink}`, {
-                method: 'GET',
-                headers: {
-                    'x-apikey': apiKey
-                }
-            });
+            try {
+                const response = await fetch(`${url}/${encodedLink}`, {
+                    method: 'GET',
+                    headers: {
+                        'x-apikey': apiKey
+                    }
+                });
 
-            const result = await response.json();
-            displayScanResults(result, link);
+                if (!response.ok) throw new Error('API request failed');
+                const result = await response.json();
+                displayScanResults(result, link);
+            } catch (error) {
+                alert('Error scanning link. Please try again later.');
+                console.error(error);
+            }
         }
 
         function displayScanResults(result, link) {
@@ -154,6 +165,15 @@
                     <li>Regularly update your browser for better security.</li>
                 </ul>
             `;
+        }
+
+        function isValidURL(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
         }
     </script>
 </head>
