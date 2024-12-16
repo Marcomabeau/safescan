@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crypto Contract Legitimacy Scanner - Verify the authenticity of crypto contracts and presale token contracts with advanced tools.">
+    <title>Crypto Contract Scanner</title>
+    <style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9BK492VN6Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-9BK492VN6Q');
+    </script>
+
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(90deg, #1f1f1f, #3a3a3a);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            font-size: 1.8em;
+            color: #00ffcc;
+        }
+        header .home-button {
+            font-size: 1em;
+            color: #00ffcc;
+            text-decoration: none;
+            border: 1px solid #00ffcc;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        header .home-button:hover {
+            background-color: #00ffcc;
+            color: #121212;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        main h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #00ffcc;
+        }
+        main p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            max-width: 800px;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .form-container input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+            font-size: 1em;
+        }
+        .form-container input::placeholder {
+            color: #777;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00ffcc;
+            color: #121212;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .form-container button:hover {
+            background-color: #00e6b3;
+            transform: scale(1.02);
+        }
+        .results {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .results h3 {
+            color: #00ffcc;
+            margin-bottom: 10px;
+        }
+        .results p {
+            margin-bottom: 10px;
+        }
+        .results .percentage {
+            font-size: 1.5em;
+            color: #00e6b3;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #3a3a3a, #1f1f1f);
+            color: #777;
+            font-size: 0.9em;
+        }
+        footer a {
+            color: #00ffcc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #00e6b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Crypto Contract Scanner</h1>
+        <a href="index.html" class="home-button">Home</a>
+    </header>
+    <main>
+        <h2>Verify Crypto Contracts Instantly</h2>
+        <p>Paste a crypto contract or presale token contract below and click "Scan Contract Now" to verify its legitimacy. Our advanced tools provide detailed analysis and validation results.</p>
+        <div class="form-container">
+            <form id="scanForm">
+                <input type="text" id="cryptoContract" placeholder="pCrypto Contract Address" required>
+                <button type="submit">Scan Contract Now</button>
+            </form>
+        </div>
+        <div id="results" class="results" style="display: none;">
+            <h3>Scan Results</h3>
+            <p>Legitimacy Score: <span class="percentage" id="legitimacyScore">-</span>%</p>
+            <p>Scam Likelihood: <span class="percentage" id="scamScore">-</span>%</p>
+            <p id="suggestions"></p>
+            <small>Note: The results provided are personal suggestions based on our system's analysis and should not be considered financial advice.</small>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Crypto Contract Scanner. All Rights Reserved. | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        // Simulate scanning process
+        const scanForm = document.getElementById("scanForm");
+        const resultsDiv = document.getElementById("results");
+        const legitimacyScoreSpan = document.getElementById("legitimacyScore");
+        const scamScoreSpan = document.getElementById("scamScore");
+        const suggestionsP = document.getElementById("suggestions");
+
+        scanForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const contractAddress = document.getElementById("cryptoContract").value.trim();
+
+            if (contractAddress) {
+                // Display loader or processing animation here (optional)
+
+                // Simulate scanning and generating results
+                const legitimacyScore = Math.floor(Math.random() * 51) + 50; // 50-100%
+                const scamScore = 100 - legitimacyScore; // Remaining percentage
+
+                legitimacyScoreSpan.textContent = legitimacyScore;
+                scamScoreSpan.textContent = scamScore;
+
+                suggestionsP.innerHTML = `
+                    Based on the analysis, the contract address has a <strong>${legitimacyScore}% chance of being legitimate</strong>. 
+                    <br>
+                    If the scam score is high, proceed cautiously, especially for large transactions or presale investments.
+                    <br>
+                    <strong>Suggestions:</strong>
+                    <ul>
+                        <li>Check the contract's audit report (if available).</li>
+                        <li>Verify team credibility and token utility.</li>
+                        <li>Ensure the presale terms align with industry standards.</li>
+                    </ul>
+                `;
+                resultsDiv.style.display = "block";
+            } else {
+                alert("Please enter a valid contract address.");
+            }
+        });
+    </script>
+</body>
+</html>

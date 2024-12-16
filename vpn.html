@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate VPN - All Last</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 50px;
+        }
+
+        h1 {
+            color: #00bcd4;
+        }
+
+        p {
+            color: #b0bec5;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #ffffff;
+            background-color: #00bcd4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #008ba3;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #00ff00;
+        }
+
+        .footer {
+            background-color: #1e1e1e;
+            color: #b0bec5;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Activate VPN</h1>
+        <p>Click the button below to activate the VPN for your machine.</p>
+        <button id="activateVPN">Activate VPN</button>
+        <p id="status"></p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 All Last VPN. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('activateVPN').addEventListener('click', async () => {
+            const statusElement = document.getElementById('status');
+
+            try {
+                // Call a backend API to activate the VPN
+                statusElement.textContent = "Activating VPN...";
+                statusElement.style.color = "#ffcc00";
+
+                const response = await fetch('https://vpn.alllast.com/api/activate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user: "current_user" }) // Replace with your user data
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        statusElement.textContent = "VPN Activated Successfully!";
+                        statusElement.style.color = "#00ff00";
+                    } else {
+                        throw new Error(result.message || "VPN activation failed.");
+                    }
+                } else {
+                    throw new Error("Error contacting VPN service.");
+                }
+            } catch (error) {
+                statusElement.textContent = `Error: ${error.message}`;
+                statusElement.style.color = "#ff0000";
+            }
+        });
+    </script>
+</body>
+</html>
