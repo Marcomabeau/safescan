@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none';">
-    <meta name="google-adsense-account" content="ca-pub-3896416800491281">
     <title>Email Scan</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3896416800491281"
-     crossorigin="anonymous"></script>
-    
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9BK492VN6Q"></script>
     <script>
@@ -19,7 +15,7 @@
         gtag('config', 'G-9BK492VN6Q');
     </script>
 
-     <style>
+    <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -38,12 +34,18 @@
         .container {
             padding: 20px;
         }
-        .container h2 {
-            margin: 20px 0;
+        .input-box {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 400px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #00a09e;
+            border-radius: 5px;
         }
         .button {
-            display: block;
-            margin: 10px auto;
+            display: inline-block;
+            margin: 20px auto;
             padding: 10px 20px;
             font-size: 18px;
             color: #fff;
@@ -56,6 +58,15 @@
         }
         .button:hover {
             background-color: #007a78;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #00f3ff;
+            border: 1px solid #00a09e;
+            border-radius: 5px;
+            display: none;
         }
         footer {
             background-color: #00a09e;
