@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Digital Security Scanner</title>
+</head>
+<body>
+    <header>
+        <h1>Privacy Policy</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>Welcome to Digital Security Scanner! Your privacy is important to us, and we are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our services.</p>
+        </section>
+
+        <section>
+            <h2>Information We Collect</h2>
+            <h3>1. Personal Information</h3>
+            <p>We may collect the following personal information:</p>
+            <ul>
+                <li>Your name</li>
+                <li>Email address</li>
+                <li>Phone number (if provided)</li>
+                <li>Other details you choose to provide</li>
+            </ul>
+
+            <h3>2. Technical Information</h3>
+            <p>We collect technical data, including:</p>
+            <ul>
+                <li>Your IP address</li>
+                <li>Browser type and version</li>
+                <li>Operating system</li>
+                <li>Time zone settings</li>
+                <li>Pages visited and access times</li>
+            </ul>
+
+            <h3>3. Cookies and Tracking</h3>
+            <p>We use cookies and similar technologies to improve your experience and analyze usage. Please see our <a href="#cookie-policy">Cookie Policy</a> for more details.</p>
+        </section>
+
+        <section>
+            <h2>How We Use Your Information</h2>
+            <p>We use your information to:</p>
+            <ul>
+                <li>Provide and improve our services</li>
+                <li>Send updates and notifications</li>
+                <li>Ensure the security of our platform</li>
+                <li>Comply with legal obligations</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Sharing Your Information</h2>
+            <p>We do not sell or rent your personal information. We may share your data in the following scenarios:</p>
+            <ul>
+                <li><strong>Service Providers:</strong> Trusted third-party vendors assisting with operations.</li>
+                <li><strong>Legal Obligations:</strong> As required by law or government requests.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Data Security</h2>
+            <p>We implement robust measures to protect your data. However, no system is completely secure, and we cannot guarantee absolute security.</p>
+        </section>
+
+        <section>
+            <h2>Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access your personal data</li>
+                <li>Request corrections</li>
+                <li>Request deletion</li>
+                <li>Withdraw consent</li>
+                <li>Opt-out of marketing communications</li>
+            </ul>
+            <p>Contact us at <a href="mailto:support@digitalsecurityscanner.com">support@digitalsecurityscanner.com</a> to exercise these rights.</p>
+        </section>
+
+        <section>
+            <h2>Third-Party Links</h2>
+            <p>Our website may contain links to external websites. We are not responsible for their privacy practices. Please review their policies independently.</p>
+        </section>
+
+        <section>
+            <h2>Changes to This Privacy Policy</h2>
+            <p>We may update this policy periodically. Any changes will be posted on this page with a revised \"Last Updated\" date.</p>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+            <p>If you have any questions or concerns, please reach out to us:</p>
+            <ul>
+                <li>Email: <a href="mailto:support@digitalsecurityscanner.com">support@digitalsecurityscanner.com</a></li>
+                <li>Phone: +1 (555) 123-4567</li>
+                <li>Address: 123 Digital Security Lane, Tech City, TX 78910</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Last Updated: [Insert Date]</p>
+        </footer>
+    </main>
+</body>
+</html>
