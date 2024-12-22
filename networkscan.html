@@ -99,18 +99,9 @@
             adPopup.style.justifyContent = 'center';
             adPopup.innerHTML = `
                 <p style="font-size: 20px; margin-bottom: 20px;">This is a Google Ad. Please wait 5 seconds...</p>
-                <div class="ad-container">
-                    <ins class="adsbygoogle"
-                        style="display:block"
-                        data-ad-format="autorelaxed"
-                        data-ad-client="ca-pub-3896416800491281"
-                        data-ad-slot="5759442803"></ins>
-                </div>
                 <button style="padding: 10px 20px; font-size: 16px; background-color: #00a09e; color: #fff; border: none; border-radius: 5px; cursor: pointer; display: none;" onclick="closeAdPopup()">Skip Ad</button>
             `;
             document.body.appendChild(adPopup);
-
-            (adsbygoogle = window.adsbygoogle || []).push({});
 
             setTimeout(() => {
                 adPopup.querySelector('button').style.display = 'block';
@@ -161,3 +152,4 @@
     </footer>
 </body>
 </html>
+
