@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-random123' https://www.googletagmanager.com; style-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-random123' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Referrer-Policy" content="strict-origin">
@@ -21,26 +19,8 @@
         gtag('js', new Date());
         gtag('config', 'G-9BK492VN6Q');
     </script>
-      <style>
-        .home-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #45a29e;
-            color: #0b0c10;
-            padding: 8px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            z-index: 999;
-        }
 
-        .home-button:hover {
-            background-color: #66fcf1;
-            color: #0b0c10;
-        }
-
+    <style>
         /* Basic Reset */
         * {
             margin: 0;
@@ -50,17 +30,20 @@
         }
 
         body {
-            background: url('Dssbg.gif') no-repeat center center fixed;
-            background-size: cover;
             color: #ffffff;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             justify-content: space-between;
             align-items: center;
+            background-color: #000; /* Fallback color */
         }
 
-        /* Header */
+        body.dark-mode {
+            background-color: #1c1c1c;
+            color: #f0f0f0;
+        }
+
         header {
             width: 100%;
             padding: 20px;
@@ -69,14 +52,16 @@
             background-color: rgba(51, 51, 51, 0.8);
         }
 
+        header.dark-mode {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
         .logo {
             font-size: 1.5em;
             color: #00ffff;
             font-weight: bold;
-            margin-left: 20px;
         }
 
-        /* Main Section */
         main {
             text-align: center;
             flex: 1;
@@ -105,24 +90,29 @@
             font-size: 1.2em;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
             width: 250px;
             text-align: center;
         }
 
         .button:hover {
             background-color: #00ffff;
+            transform: scale(1.05);
         }
 
-        /* Footer */
         footer {
             width: 100%;
             background-color: rgba(34, 34, 34, 0.8);
             color: #ccc;
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
             font-size: 0.9em;
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+
+        footer.dark-mode {
+            background-color: rgba(20, 20, 20, 0.8);
         }
 
         footer a {
@@ -135,57 +125,15 @@
             text-decoration: underline;
         }
 
-        footer p {
-            margin: 5px 0;
-        }
-        
-        .affiliate-section {
-            display: flex;
-            justify-content: center;
-            padding: 20px 10px 0; /* Reduce bottom padding to close the gap */
-            background-color: #f9f9f9;
-            margin-top: 0; /* Remove unnecessary margin above */
-        }
+        @media (max-width: 768px) {
+            .button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
 
-        .affiliate-box {
-            background-color: #ffffff;
-            border: 1px solid #dcdcdc;
-            border-radius: 8px;
-            text-align: center;
-            padding: 15px 20px;
-            max-width: 500px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .affiliate-box h2 {
-            font-size: 1.4em;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .affiliate-box p {
-            font-size: 0.9em;
-            margin-bottom: 15px;
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .affiliate-box-button {
-            background-color: #0b3d91; /* HostGator blue */
-            color: #ffffff;
-            font-size: 1em;
-            padding: 8px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            display: inline-block;
-        }
-
-        .affiliate-box-button:hover {
-            background-color: #ffcc00; /* HostGator gold */
-            color: #0b3d91;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            footer {
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -208,16 +156,8 @@
             <button class="button" onclick="location.href='linkscan.html'">Link Scanner</button>
             <button class="button" onclick="location.href='cryptoscan.html'">Crypto Scanner</button>
         </div>
+        <button id="darkModeToggle" class="button" style="margin-top: 20px;">Toggle Dark Mode</button>
     </main>
-
-    <!-- HostGator Promotion Section -->
-    <section class="affiliate-section">
-        <div class="affiliate-box">
-            <h2>Need Reliable Web Hosting?</h2>
-            <p>Get the best hosting experience with <strong>HostGator</strong>. Fast, secure, and perfect for all your website needs.</p>
-            <a href="https://partners.hostgator.com/c/3142126/177309/3094?partnerpropertyid=3026067" class="affiliate-box-button" target="_blank">Start Hosting Now</a>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer>
@@ -231,8 +171,42 @@
 
     <!-- Script Tag -->
     <script>
-        // Placeholder for future JavaScript functionality
-        console.log("Page loaded successfully!");
+        // Lazy Load Background
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.querySelector('body');
+            const bgImage = 'Dssbg.gif';
+            const img = new Image();
+            img.src = bgImage;
+            img.onload = function() {
+                body.style.backgroundImage = `url('${bgImage}')`;
+                body.style.backgroundRepeat = 'no-repeat';
+                body.style.backgroundPosition = 'center center';
+                body.style.backgroundSize = 'cover';
+            };
+        });
+
+        // Dark Mode Toggle
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('header').classList.toggle('dark-mode');
+            document.querySelector('footer').classList.toggle('dark-mode');
+        });
+
+        // Error Handling for Navigation
+        const buttons = document.querySelectorAll('.button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const url = this.getAttribute('onclick').match(/'(.*?)'/)[1];
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Page not found');
+                        window.location.href = url;
+                    })
+                    .catch(error => {
+                        alert(`Error: Unable to navigate to ${url}`);
+                    });
+            });
+        });
     </script>
 </body>
 </html>
