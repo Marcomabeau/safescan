@@ -2,118 +2,217 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" 
-content="width=device-width, 
-initial-scale=1.0">
-    <meta name="google-adsense-account" content="ca-pub-3896416800491281">
-    <title>Digital Security Center</title>
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9BK492VN6Q"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-9BK492VN6Q');
-    </script>
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3896416800491281" crossorigin="anonymous"></script>
-
-        <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
-            color: #00f3ff;
-            text-align: center;
-        }
-        header {
-            background-color: #00a09e;
-            padding: 10px 0;
-        }
-        header h1 {
-            margin: 0;
-            color: #fff;
-        }
-        .container {
-            padding: 20px;
-        }
-        .container h2 {
-            margin: 20px 0;
-        }
-        .button {
-            display: block;
-            margin: 10px auto;
-            padding: 10px 20px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #00a09e;
-            border: none;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Scanner</title>
+    <style>
+.home-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #45a29e;
+            color: #0b0c10;
+            padding: 8px 20px;
             border-radius: 5px;
             text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 999;
+        }
+
+        .home-button:hover {
+            background-color: #66fcf1;
+            color: #0b0c10;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: url('Dssbg.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(51, 51, 51, 0.8);
+        }
+
+        .logo {
+            font-size: 1.5em;
+            color: #00ffff;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        /* Main Section */
+        main {
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #00b3b3;
+            color: #1c1c1c;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            width: 250px;
+            text-align: center;
         }
-        .button:hover {
-            background-color: #007a78;
-        }
-        footer {
-            background-color: #00a09e;
-            color: #fff;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-    </style>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-random123'; style-src 'self';">
+        .button:hover {
+            background-color: #00ffff;
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            background-color: rgba(34, 34, 34, 0.8);
+            color: #ccc;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        footer a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+.affiliate-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px 10px 0; /* Reduce bottom padding to close the gap */
+    background-color: #f9f9f9;
+    margin-top: 0; /* Remove unnecessary margin above */
+}
+
+.affiliate-box {
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    text-align: center;
+    padding: 15px 20px;
+    max-width: 500px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.affiliate-box h2 {
+    font-size: 1.4em;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.affiliate-box p {
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.affiliate-box-button {
+    background-color: #0b3d91; /* HostGator blue */
+    color: #ffffff;
+    font-size: 1em;
+    padding: 8px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+}
+
+.affiliate-box-button:hover {
+    background-color: #ffcc00; /* HostGator gold */
+    color: #0b3d91;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+    </style>
 </head>
 <body>
+	<a href="index.html" class="home-button">HOME</a>
+
+    <!-- Header -->
     <header>
-        <h1>Digital Security Center</h1>
+        <div class="logo">Safety Scanner</div>
     </header>
-    <div class="container">
-        <h2>Welcome to Digital Security Center</h2>
-        <a href="networkscan.html" class="button">Network Scan</a>
-        <a href="filescan.html" class="button">File Scan</a>
-        <a href="emailscan.html" class="button">Email Scan</a>
-        <a href="linkscan.html" class="button">Links Scan</a>
-        <a href="cryptoscan.html" class="button">Crypto Scan</a>
-    </div>
 
-    <!-- AdSense Ads -->
-    <div class="ad-container">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3896416800491281"
-             data-ad-slot="3607744577"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+    <!-- Main Content -->
+    <main>
+        <h1>Welcome to Safety Scanner</h1>
+        <p>Secure your digital presence with our powerful scanning tools.</p>
+        <div class="button-container">
+            <button class="button" onclick="location.href='networksecurity.html'">Network Scanner</button>
+            <button class="button" onclick="location.href='filescan.html'">File Scan</button>
+            <button class="button" onclick="location.href='emailscan.html'">Email Scanner</button>
+            <button class="button" onclick="location.href='linkscan.html'">Link Scanner</button>
+			  <button class="button" onclick="location.href='CryptoScan.html'">Crypto Scanner</button>
+        </div>
+    </main>
+	<!-- HostGator Promotion Section -->
+<section class="affiliate-section">
+    <div class="affiliate-box">
+        <h2>Need Reliable Web Hosting?</h2>
+        <p>Get the best hosting experience with <strong>HostGator</strong>. Fast, secure, and perfect for all your website needs.</p>
+        <a href="https://partners.hostgator.com/c/3142126/177309/3094?partnerpropertyid=3026067" class="affiliate-box-button" target="_blank">Start Hosting Now</a>
     </div>
-    <script nonce="random123">
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
-    <div class="ad-container">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-format="autorelaxed"
-             data-ad-client="ca-pub-3896416800491281"
-             data-ad-slot="5759442803"></ins>
-    </div>
-    <script nonce="random123">
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
+</section>
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Digital Security Scanner. All Rights Reserved.</p>
-        <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+        <p>&copy; 2024 Safety Scanner. All Rights Reserved.</p>
+        <p>
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms of Service</a> | 
+            <a href="#">Contact Us</a>
+        </p>
     </footer>
+
+    <!-- Script Tag -->
+    <script>
+        // Placeholder for future JavaScript functionality
+        console.log("Page loaded successfully!");
+    </script>
 </body>
 </html>
