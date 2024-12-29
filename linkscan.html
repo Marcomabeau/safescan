@@ -2,270 +2,202 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Link Scanner with Virustotal</title></title>
-<style>
-    /* ---- Basic Reset ---- */
-    * {
+  <title>Link Scanner | Digital Security Scanner</title>
+  <style>
+    /* Dark digital theme */
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      background: #0d0d0d; /* Very dark background */
+      color: #f5f5f5;      /* Light text color */
     }
 
-    body {
-      background: #111;
-      color: #eee;
-      font-family: "Arial", sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #222;
-      padding: 1rem 2rem;
-    }
-
-    /* Home Button */
-    .home-button {
-      color: #eee;
-      text-decoration: none;
-      background-color: #333;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    .home-button:hover {
-      background-color: #444;
-    }
-
-    /* Main Container */
-    .container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
+    header, footer {
+      background: #1a1a1a; /* Slightly lighter than body for contrast */
+      padding: 20px;
+      text-align: center;
     }
 
     h1 {
-      margin-bottom: 2rem;
-      color: #00c3ff;
-      text-shadow: 0 0 10px #00c3ff;
+      margin: 0;
+      color: #70F8BA; /* Neon-like color to emphasize the “digital” theme */
+      font-weight: 400;
+      text-shadow: 0 0 5px #70F8BA;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #1a1a1a; /* matching the header/footer background */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(112, 248, 186, 0.2);
     }
 
     label {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
       display: block;
+      margin-bottom: 10px;
+      font-size: 1.1em;
     }
 
     input[type="text"] {
       width: 100%;
-      max-width: 500px;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #444;
-      border-radius: 3px;
-      background: #222;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      border: 1px solid #333;
+      background-color: #333;
       color: #fff;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
     }
 
     button {
-      padding: 0.7rem 1.5rem;
-      background: linear-gradient(to right, #00c3ff, #0054ff);
+      padding: 12px 24px;
       border: none;
-      border-radius: 5px;
-      color: #fff;
-      font-size: 1rem;
+      border-radius: 4px;
       cursor: pointer;
-      transition: opacity 0.3s ease;
+      font-size: 1em;
+      color: #fff;
+      text-transform: uppercase;
+      background: #70F8BA;
+      box-shadow: 0 0 10px rgba(112, 248, 186, 0.3);
+      transition: background 0.3s ease;
     }
+
     button:hover {
-      opacity: 0.8;
+      background: #5cd5a0; /* Slightly darker hover color */
     }
 
-    .results {
-      margin-top: 2rem;
-      width: 100%;
-      max-width: 600px;
-      background: #222;
-      padding: 1rem;
-      border-radius: 5px;
-      border: 1px solid #444;
+    #resultContainer {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px dashed #70F8BA;
+      display: none;
     }
 
-    .footer {
-      background: #222;
-      color: #aaa;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    .highlight {
-      color: #00c3ff;
-    }
-
-    .error {
-      color: #f00;
+    footer {
+      margin-top: 50px;
+      color: #888;
+      font-size: 0.9em;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header Section -->
-  <header>
-    <div>
-      <h2>Digital Security Scanner</h2>
-    </div>
-    <div>
-      <a href="index.html" class="home-button">Home</a>
-    </div>
-  </header>
+<header>
+  <h1>Digital Security Scanner</h1>
+</header>
 
-  <!-- Main Content Container -->
-  <div class="container">
-    <h1>Scan Your Link with VirusTotal</h1>
-    <label for="urlInput">Enter URL or Link:</label>
-    <input type="text" id="urlInput" placeholder="https://example.com" />
+<div class="container">
+  <label for="urlInput">Enter the link/URL you want to scan:</label>
+  <input type="text" id="urlInput" placeholder="https://example.com" />
 
-    <button onclick="scanLink()">Scan the link now</button>
-
-    <!-- Results Section -->
-    <div class="results" id="scanResults">
-      <!-- Scan results will appear here -->
-    </div>
+  <div class="buttons">
+    <button id="homeBtn">Home</button>
+    <button id="scanBtn">Scan Now</button>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <p>&copy; 2024 Digital Security Scanner. All rights reserved.</p>
-  </div>
+  <div id="resultContainer"></div>
+</div>
 
-  <!-- JavaScript for Scanning with VirusTotal -->
-  <script>
-    // !!! WARNING !!!
-    // Exposing your API key in client-side code is NOT secure. This is for demo only!
-    // Use a server-side script in production to keep your key secret.
-    const VIRUSTOTAL_API_KEY = "a2215a7213636e8a7c261c06795738216a6713133306a38c00775a67305c484c"; 
+<footer>
+  <!-- Reusable Footer: Same style/theme as requested -->
+  <p>&copy; 2024 Digital Security Scanner. All rights reserved.</p>
+</footer>
 
-    async function scanLink() {
-      const urlInput = document.getElementById('urlInput').value.trim();
-      const resultsDiv = document.getElementById('scanResults');
-      resultsDiv.innerHTML = ""; // Clear previous results
+<script>
+  // Button References
+  const homeBtn = document.getElementById('homeBtn');
+  const scanBtn = document.getElementById('scanBtn');
+  const urlInput = document.getElementById('urlInput');
+  const resultContainer = document.getElementById('resultContainer');
 
-      if (!urlInput) {
-        resultsDiv.innerHTML = "<p class='error'>Please enter a valid URL.</p>";
-        return;
-      }
+  // Home button event to go back to index.html
+  homeBtn.addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
 
-      // Step 1: Submit the URL to VirusTotal for analysis
-      try {
-        resultsDiv.innerHTML = "<p>Submitting URL to VirusTotal for analysis...</p>";
-
-        // VirusTotal v3 requires sending data in "url=<ENCODED_URL>" format
-        const submitResponse = await fetch("https://www.virustotal.com/api/v3/urls", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "x-apikey": VIRUSTOTAL_API_KEY
-          },
-          body: `url=${encodeURIComponent(urlInput)}`
-        });
-
-        if (!submitResponse.ok) {
-          throw new Error(`Error submitting URL: ${submitResponse.statusText}`);
-        }
-
-        const submitData = await submitResponse.json();
-        // The returned JSON should have an 'analysis_id'
-        const analysisId = submitData.data.id;
-
-        resultsDiv.innerHTML += "<p>URL submitted successfully. Analyzing...</p>";
-
-        // Step 2: Retrieve the analysis results from VirusTotal
-        // We can poll the analysis endpoint until we get a finished status
-        let analysisCompleted = false;
-        let analysisResponse = null;
-        
-        while (!analysisCompleted) {
-          const checkResponse = await fetch(`https://www.virustotal.com/api/v3/analyses/${analysisId}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "x-apikey": VIRUSTOTAL_API_KEY
-            }
-          });
-
-          if (!checkResponse.ok) {
-            throw new Error(`Error fetching analysis: ${checkResponse.statusText}`);
-          }
-
-          analysisResponse = await checkResponse.json();
-          const status = analysisResponse.data.attributes.status;
-          
-          if (status === "completed") {
-            analysisCompleted = true;
-          } else {
-            // If still queued or in progress, wait a bit before next check
-            resultsDiv.innerHTML += "<p>Analysis still in progress. Please wait...</p>";
-            await new Promise(r => setTimeout(r, 3000)); // wait 3 seconds
-          }
-        }
-
-        // Step 3: Interpret the results
-        // The analysisResponse now should have a breakdown of detections
-        const stats = analysisResponse.data.attributes.stats;
-        // 'stats' typically includes 'harmless', 'malicious', 'suspicious', 'undetected', 'timeout'
-        
-        let resultHTML = `<p><strong>Scanned URL:</strong> <span class="highlight">${urlInput}</span></p>`;
-        resultHTML += `<p><strong>Status:</strong> Analysis Completed</p>`;
-        
-        // If any malicious or suspicious engines are reported
-        const maliciousCount = stats.malicious;
-        const suspiciousCount = stats.suspicious;
-        
-        if (maliciousCount > 0 || suspiciousCount > 0) {
-          resultHTML += `<p><strong>Malicious Detections:</strong> ${maliciousCount}</p>`;
-          resultHTML += `<p><strong>Suspicious Detections:</strong> ${suspiciousCount}</p>`;
-          resultHTML += `<p style="color: #f00;">This link may be unsafe!</p>`;
-        } else {
-          resultHTML += `<p style="color: #0f0;">No malicious or suspicious detections found.</p>`;
-        }
-        
-        // Additional checks: SSL, recommendations, etc.
-        const hasSSL = urlInput.startsWith('https://');
-        if (!hasSSL) {
-          resultHTML += `
-            <p><strong>SSL:</strong> Not Detected<br/>
-            <em>Suggestion: Use HTTPS:// for a more secure connection.</em></p>
-          `;
-        } else {
-          resultHTML += `<p><strong>SSL:</strong> Detected (HTTPS)</p>`;
-        }
-        
-        // Summarized suggestions
-        resultHTML += `
-          <h3>Recommendations</h3>
-          <ul>
-            <li>Always verify URLs and use HTTPS if available</li>
-            <li>Keep operating systems and antivirus software up to date</li>
-            <li>Double-check suspicious links with multiple security scanners</li>
-          </ul>
-        `;
-
-        resultsDiv.innerHTML = resultHTML;
-
-      } catch (error) {
-        console.error(error);
-        resultsDiv.innerHTML += `<p class='error'>An error occurred: ${error.message}</p>`;
-      }
+  // Scan button event to check the URL using an external API
+  scanBtn.addEventListener('click', async () => {
+    const urlToScan = urlInput.value.trim();
+    if (!urlToScan) {
+      alert('Please enter a valid URL before scanning.');
+      return;
     }
-  </script>
+
+    // Clear previous results
+    resultContainer.style.display = 'none';
+    resultContainer.innerHTML = '';
+
+    try {
+      // Example: Using VirusTotal's v3 API to scan URLs.
+      // You need to replace YOUR_API_KEY_HERE with an actual API key
+      // from your VirusTotal account or any other open-source service.
+      
+      const apiKey = 'YOUR_API_KEY_HERE';
+      const vtUrl = 'https://www.virustotal.com/api/v3/urls';
+
+      // We first need to get the url_id by encoding the URL
+      // according to VirusTotal specs (Base64 without '=' and URL safe).
+      const urlId = btoa(urlToScan).replace(/=+$/, '');
+      
+      // Option 1: You can create a new scan for the URL (submit it).
+      // const submitResponse = await fetch(vtUrl, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'x-apikey': apiKey
+      //   },
+      //   body: JSON.stringify({ url: urlToScan })
+      // });
+      // const submitData = await submitResponse.json();
+      // console.log('Submission response:', submitData);
+
+      // Option 2: Retrieve analysis for the URL
+      // (depending on how you want to handle fresh scans vs. existing data).
+      const analysisUrl = `${vtUrl}/${urlId}`;
+      const response = await fetch(analysisUrl, {
+        headers: { 'x-apikey': apiKey }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch the scan result from VirusTotal API.');
+      }
+
+      const data = await response.json();
+      console.log('VirusTotal Data: ', data);
+
+      // Parse the results for detection. 
+      // This is a simple approach for demonstration.
+      const analysisStats = data.data?.attributes?.last_analysis_stats;
+      const maliciousCount = analysisStats?.malicious || 0;
+      const suspiciousCount = analysisStats?.suspicious || 0;
+
+      let message = `<h3>Scan Results:</h3>`;
+      if (maliciousCount > 0) {
+        message += `<p><strong style="color: #FF5252;">Malicious content detected!</strong></p>`;
+      } else if (suspiciousCount > 0) {
+        message += `<p><strong style="color: #FFA500;">URL might be suspicious!</strong></p>`;
+      } else {
+        message += `<p><strong style="color: #70F8BA;">URL seems clean!</strong></p>`;
+      }
+
+      message += `<p>Details: ${maliciousCount} malicious, ${suspiciousCount} suspicious detections.</p>`;
+      resultContainer.innerHTML = message;
+      resultContainer.style.display = 'block';
+
+    } catch (error) {
+      console.error(error);
+      resultContainer.innerHTML = `<p style="color: #FF5252;">An error occurred while scanning the URL. Please try again later.</p>`;
+      resultContainer.style.display = 'block';
+    }
+  });
+</script>
 </body>
 </html>
