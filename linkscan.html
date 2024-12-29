@@ -118,12 +118,12 @@
   const urlInput = document.getElementById('urlInput');
   const resultContainer = document.getElementById('resultContainer');
 
-  // Home button event to go back to index.html
+  // Home button: go back to index.html
   homeBtn.addEventListener('click', () => {
     window.location.href = 'index.html';
   });
 
-  // Scan button event to check the URL using an external API
+  // Scan button: use URLScan.io API
   scanBtn.addEventListener('click', async () => {
     const urlToScan = urlInput.value.trim();
     if (!urlToScan) {
@@ -136,65 +136,91 @@
     resultContainer.innerHTML = '';
 
     try {
-      // Example: Using VirusTotal's v3 API to scan URLs.
-      // You need to replace YOUR_API_KEY_HERE with an actual API key
-      // from your VirusTotal account or any other open-source service.
-      
-      const apiKey = '58ee1e0164de388721af7ad203630736166b2af5fbd07c10b74e8a0e120ca3fc';
-      const vtUrl = 'https://www.virustotal.com/api/v3/urls';
+      // ========== 1) SUBMIT SCAN REQUEST ==========
+      const apiKey = '37a7626f-ab08-4582-94ef-259d2864ec4f';
+      const scanApiUrl = 'https://urlscan.io/api/v1/scan/';
 
-      // We first need to get the url_id by encoding the URL
-      // according to VirusTotal specs (Base64 without '=' and URL safe).
-      const urlId = btoa(urlToScan).replace(/=+$/, '');
-      
-      // Option 1: You can create a new scan for the URL (submit it).
-      // const submitResponse = await fetch(vtUrl, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'x-apikey': apiKey
-      //   },
-      //   body: JSON.stringify({ url: urlToScan })
-      // });
-      // const submitData = await submitResponse.json();
-      // console.log('Submission response:', submitData);
+      // Let the user know scanning is in progress
+      resultContainer.innerHTML = '<p>Scanning in progress... please wait.</p>';
+      resultContainer.style.display = 'block';
 
-      // Option 2: Retrieve analysis for the URL
-      // (depending on how you want to handle fresh scans vs. existing data).
-      const analysisUrl = `${vtUrl}/${urlId}`;
-      const response = await fetch(analysisUrl, {
-        headers: { 'x-apikey': apiKey }
+      // POST request to initiate a scan
+      const scanResponse = await fetch(scanApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'API-Key': apiKey
+        },
+        body: JSON.stringify({ url: urlToScan, public: 'on' }) 
+        // 'public': 'on' -> results are public; 'off' -> private scan (requires higher privileges).
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch the scan result from VirusTotal API.');
+      if (!scanResponse.ok) {
+        throw new Error('Failed to submit scan request to URLScan.io.');
       }
 
-      const data = await response.json();
-      console.log('VirusTotal Data: ', data);
+      const scanData = await scanResponse.json();
+      console.log('Scan submission response:', scanData);
 
-      // Parse the results for detection. 
-      // This is a simple approach for demonstration.
-      const analysisStats = data.data?.attributes?.last_analysis_stats;
-      const maliciousCount = analysisStats?.malicious || 0;
-      const suspiciousCount = analysisStats?.suspicious || 0;
+      // The scanData typically includes "uuid" and an "api" link to fetch the results
+      const { uuid, api } = scanData;
 
-      let message = `<h3>Scan Results:</h3>`;
-      if (maliciousCount > 0) {
-        message += `<p><strong style="color: #FF5252;">Malicious content detected!</strong></p>`;
-      } else if (suspiciousCount > 0) {
-        message += `<p><strong style="color: #FFA500;">URL might be suspicious!</strong></p>`;
+      // ========== 2) WAIT AND RETRIEVE RESULTS ==========
+      // Wait a few seconds to allow URLScan to process
+      await new Promise(resolve => setTimeout(resolve, 5000)); // 5-second delay
+
+      // Now we fetch the final results from the "api" link or from /result/<uuid>
+      const resultUrl = api || `https://urlscan.io/api/v1/result/${uuid}`;
+      const resultResponse = await fetch(resultUrl, {
+        headers: { 'API-Key': apiKey }
+      });
+
+      if (!resultResponse.ok) {
+        throw new Error('Failed to fetch final scan results from URLScan.io.');
+      }
+
+      const resultData = await resultResponse.json();
+      console.log('Final scan results:', resultData);
+
+      // ========== 3) PARSE AND DISPLAY SOME BASIC INFO ==========
+      // URLScan's data contains detailed info about the site, requests, etc.
+      // We'll show a simplified "verdict" or "score" from the "verdicts" object if it exists.
+      let message = '<h3>Scan Results:</h3>';
+
+      // Basic approach: check if there's a "verdicts" object with an "overall" score or malicious status
+      const verdicts = resultData.verdicts?.overall;
+      if (verdicts) {
+        // 'score' is an integer (0=clean, higher=more suspicious); 'malicious' is boolean.
+        const { score, malicious } = verdicts;
+        if (malicious) {
+          message += '<p><strong style="color: #FF5252;">Malicious content detected!</strong></p>';
+        } else if (score >= 50) {
+          message += '<p><strong style="color: #FFA500;">URL might be suspicious!</strong></p>';
+        } else {
+          message += '<p><strong style="color: #70F8BA;">URL seems clean!</strong></p>';
+        }
+        message += `<p>Threat score: ${score}</p>`;
       } else {
-        message += `<p><strong style="color: #70F8BA;">URL seems clean!</strong></p>`;
+        message += '<p>No clear verdict found. Check the full report for details.</p>';
       }
 
-      message += `<p>Details: ${maliciousCount} malicious, ${suspiciousCount} suspicious detections.</p>`;
+      // Optionally, provide a direct link to the public scan result on urlscan.io
+      message += `<p>View full details: 
+        <a href="https://urlscan.io/result/${uuid}/" target="_blank">
+          https://urlscan.io/result/${uuid}/
+        </a></p>`;
+
+      // Display final message
       resultContainer.innerHTML = message;
       resultContainer.style.display = 'block';
 
     } catch (error) {
       console.error(error);
-      resultContainer.innerHTML = `<p style="color: #FF5252;">An error occurred while scanning the URL. Please try again later.</p>`;
+      resultContainer.innerHTML = `
+        <p style="color: #FF5252;">
+          An error occurred while scanning the URL. Please try again later.
+        </p>
+      `;
       resultContainer.style.display = 'block';
     }
   });
