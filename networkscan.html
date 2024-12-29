@@ -1,146 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-adsense-account" content="ca-pub-3896416800491281">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3896416800491281" crossorigin="anonymous"></script>
-    <title>Network Scan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Network Scanner</title>
+  <style>
+    /* Basic Reset & Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9BK492VN6Q"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    body {
+      background-color: #121212; /* Dark theme background */
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
 
-        gtag('config', 'G-9BK492VN6Q');
-    </script>
+    header {
+      width: 100%;
+      padding: 20px;
+      background-color: #1e1e1e;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
-            color: #00f3ff;
-            text-align: center;
-        }
-        header {
-            background-color: #00a09e;
-            padding: 10px 0;
-        }
-        header h1 {
-            margin: 0;
-            color: #fff;
-        }
-        .container {
-            padding: 20px;
-        }
-        .button {
-            display: inline-block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 18px;
-            color: #fff;
-            background-color: #00a09e;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .button:hover {
-            background-color: #007a78;
-        }
-        .result-box {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: #00f3ff;
-            border: 1px solid #00a09e;
-            border-radius: 5px;
-            display: none;
-        }
-        footer {
-            background-color: #00a09e;
-            color: #fff;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        footer p {
-            margin: 0;
-            font-size: 14px;
-        }
-    </style>
+    header h1 {
+      color: #00bcd4;
+      font-size: 2rem;
+    }
 
-    <script>
-        function showAdAndScan() {
-            // Simulate a Google Ad pop-up
-            const adPopup = document.createElement('div');
-            adPopup.style.position = 'fixed';
-            adPopup.style.top = '0';
-            adPopup.style.left = '0';
-            adPopup.style.width = '100%';
-            adPopup.style.height = '100%';
-            adPopup.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            adPopup.style.color = '#fff';
-            adPopup.style.display = 'flex';
-            adPopup.style.flexDirection = 'column';
-            adPopup.style.alignItems = 'center';
-            adPopup.style.justifyContent = 'center';
-            adPopup.innerHTML = `
-                <p style="font-size: 20px; margin-bottom: 20px;">This is a Google Ad. Please wait 5 seconds...</p>
-                <button style="padding: 10px 20px; font-size: 16px; background-color: #00a09e; color: #fff; border: none; border-radius: 5px; cursor: pointer; display: none;" onclick="closeAdPopup()">Skip Ad</button>
-            `;
-            document.body.appendChild(adPopup);
+    main {
+      flex: 1;
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-            setTimeout(() => {
-                adPopup.querySelector('button').style.display = 'block';
-            }, 5000);
+    .description {
+      margin: 20px 0;
+      line-height: 1.5;
+      color: #b0bec5;
+      font-size: 1rem;
+      max-width: 600px;
+    }
 
-            setTimeout(() => {
-                closeAdPopup();
-            }, 8000);
+    .scan-form {
+      background-color: #1e1e1e;
+      border: 1px solid #00bcd4;
+      border-radius: 5px;
+      padding: 20px;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
 
-            function closeAdPopup() {
-                if (document.body.contains(adPopup)) {
-                    document.body.removeChild(adPopup);
-                    runNetworkScan();
-                }
-            }
-        }
+    .scan-form h2 {
+      color: #00bcd4;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
 
-        function runNetworkScan() {
-            const resultBox = document.querySelector('.result-box');
-            resultBox.style.display = 'block';
-            resultBox.innerHTML = `
-                <h3>Scan Results</h3>
-                <p><strong>Network Status:</strong> Secure</p>
-                <p><strong>Vulnerabilities Detected:</strong> None</p>
-                <p><strong>Malware Check:</strong> Clean</p>
-                <p><strong>Recommendations:</strong></p>
-                <ul>
-                    <li>Ensure your firewall is active and properly configured.</li>
-                    <li>Update all software and operating systems regularly.</li>
-                    <li>Avoid connecting to unknown public Wi-Fi networks.</li>
-                    <li>Use strong, unique passwords for all accounts.</li>
-                </ul>
-            `;
-        }
-    </script>
+    .scan-form p {
+      color: #b0bec5;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .scan-form input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #00bcd4;
+      border-radius: 5px;
+      background-color: #2c2c2c;
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .scan-form button {
+      padding: 10px 20px;
+      background-color: #00bcd4;
+      border: none;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .scan-form button:hover {
+      background-color: #008ba3;
+    }
+
+    .results-container {
+      background-color: #1e1e1e;
+      border: 1px solid #00bcd4;
+      border-radius: 5px;
+      padding: 20px;
+      width: 100%;
+      max-width: 500px;
+      display: none; /* Hide until we have results to show */
+      text-align: left;
+    }
+
+    .results-container h2 {
+      color: #00bcd4;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .results-container p {
+      margin-bottom: 10px;
+      line-height: 1.4;
+      color: #b0bec5;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      width: 100%;
+      padding: 15px;
+      background-color: #1e1e1e;
+      text-align: center;
+    }
+
+    footer p {
+      color: #b0bec5;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-    </header>
-    <div class="container">
-        <button class="button" onclick="showAdAndScan()">Scan Network Now</button>
-        <a href="index.html" class="button">Home</a>
-        <div class="result-box"></div>
+
+  <!-- Header -->
+  <header>
+    <h1>Network Scanner</h1>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <p class="description">
+      Welcome to the Network Scanner page. Here, you can quickly scan your network or any IP/Domain 
+      to discover open ports, running services, and potential vulnerabilities.  
+      For deeper insights, connect this page to a backend that performs real-world scans 
+      using tools like Nmap.
+    </p>
+
+    <!-- Scan Form -->
+    <div class="scan-form" id="scanFormWrapper">
+      <h2>Enter Network/Host to Scan</h2>
+      <p>Example: 192.168.1.1 or example.com</p>
+      <input type="text" id="hostInput" placeholder="Enter IP or Domain" />
+      <br />
+      <button id="startScanBtn">Start Scan</button>
     </div>
-    <footer>
-        <p>&copy; 2024 Digital Security Center. All rights reserved.</p>
-    </footer>
+
+    <!-- Results Container -->
+    <div class="results-container" id="resultsContainer">
+      <h2>Scan Results</h2>
+      <p id="scanOutput">Gathering results...</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Digital Safety Scanner. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const startScanBtn = document.getElementById('startScanBtn');
+    const hostInput = document.getElementById('hostInput');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const scanOutput = document.getElementById('scanOutput');
+
+    startScanBtn.addEventListener('click', () => {
+      const host = hostInput.value.trim();
+      if (!host) {
+        alert('Please enter a valid IP or domain to scan.');
+        return;
+      }
+      
+      // Display the results container
+      resultsContainer.style.display = 'block';
+      scanOutput.textContent = 'Starting scan for ' + host + '...';
+
+      // Simulate a scan (placeholder logic)
+      // In real use, you might call an API endpoint that runs nmap or other scanning tool
+      setTimeout(() => {
+        // Simulated results
+        const simulatedResults = `
+          Host: ${host}
+          Open Ports: 22 (SSH), 80 (HTTP), 443 (HTTPS)
+          Potential Vulnerabilities: None detected.
+        `;
+        scanOutput.textContent = simulatedResults;
+      }, 2000);
+    });
+  </script>
 </body>
 </html>
-
