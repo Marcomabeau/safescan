@@ -44,7 +44,7 @@
         }
         .button {
             display: inline-block;
-            margin: 20px auto;
+            margin: 20px 10px 0 10px;
             padding: 10px 20px;
             font-size: 18px;
             color: #fff;
@@ -59,13 +59,15 @@
             background-color: #007a78;
         }
         .result-box {
-            margin-top: 20px;
+            margin: 20px auto 0 auto;
             padding: 20px;
             background-color: #1a1a1a;
             color: #00f3ff;
             border: 1px solid #00a09e;
             border-radius: 5px;
-            display: none;
+            display: none; /* Hidden by default; shown after scanning */
+            width: 80%;
+            max-width: 600px;
         }
         footer {
             background-color: #00a09e;
@@ -82,7 +84,6 @@
     </style>
 
     <script>
-        // Removed the ad simulation. Now scanning will happen immediately.
         async function scanLink() {
             const linkInput = document.querySelector('.input-box').value;
             if (!linkInput) {
@@ -159,10 +160,10 @@
     </header>
     <div class="container">
         <input type="text" class="input-box" placeholder="Enter a link to scan" />
-        <!-- Button calls scanLink() directly, no ad simulation is shown. -->
         <button class="button" onclick="scanLink()">Scan Link Now</button>
         <a href="index.html" class="button">Home</a>
-
+        
+        <!-- Results will be shown here after clicking "Scan Link Now" -->
         <div class="result-box"></div>
     </div>
     <footer>
