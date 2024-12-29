@@ -6,10 +6,7 @@
   
   <!-- 
     Content Security Policy Adjustments:
-    1. We have script-src 'self' 'nonce-random123' https://www.googletagmanager.com
-       so we must add nonce="random123" to inline scripts.
-    2. Removed inline event handlers (onclick) from the HTML and replaced them with
-       JavaScript event listeners in a script with the valid nonce.
+    - Note the 'nonce-random123' for inline scripts
   -->
   <meta 
     http-equiv="Content-Security-Policy" 
@@ -45,9 +42,8 @@
 
     /* Body Styles */
     body {
-      /* Moved background image handling to JS for lazy-load & removed from universal selector */
       background-color: #000; /* fallback color */
-      color: #00f3ff;        /* default text color */
+      color: #00f3ff;        
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -55,7 +51,6 @@
       align-items: center;
       min-height: 100vh;
     }
-
     body.dark-mode {
       background-color: #1c1c1c;
       color: #f0f0f0;
@@ -93,7 +88,6 @@
     header.dark-mode {
       background-color: rgba(0, 0, 0, 0.8);
     }
-
     .logo {
       font-size: 1.5em;
       color: #00ffff;
@@ -122,10 +116,9 @@
     h1 {
       margin-bottom: 15px;
     }
-
     p {
       margin-bottom: 25px;
-      color: #ffffff; /* Ensures readability over background */
+      color: #ffffff;
     }
 
     /* Buttons */
@@ -137,9 +130,9 @@
       max-width: 300px; 
       width: 100%;
     }
-
     .nav-button,
-    #darkModeToggle {
+    #darkModeToggle,
+    .extra-button {
       background-color: #00b3b3;
       color: #1c1c1c;
       border: none;
@@ -151,13 +144,21 @@
       text-align: center;
     }
     .nav-button:hover,
-    #darkModeToggle:hover {
+    #darkModeToggle:hover,
+    .extra-button:hover {
       background-color: #00ffff;
       transform: scale(1.05);
     }
-
     #darkModeToggle {
       margin-top: 20px;
+    }
+
+    /* New Extra Buttons Container */
+    .extra-buttons-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
     }
 
     /* Footer */
@@ -173,7 +174,6 @@
     footer.dark-mode {
       background-color: rgba(20, 20, 20, 0.8);
     }
-
     footer a {
       color: #00ffff;
       text-decoration: none;
@@ -185,11 +185,11 @@
 
     @media (max-width: 768px) {
       .nav-button,
-      #darkModeToggle {
+      #darkModeToggle,
+      .extra-button {
         font-size: 1em;
         padding: 10px 20px;
       }
-
       footer {
         font-size: 0.8em;
       }
@@ -210,15 +210,25 @@
     <div class="content-box">
       <h1>Welcome to Safety Scanner</h1>
       <p>Secure your digital presence with our powerful scanning tools.</p>
+
+      <!-- Existing Buttons -->
       <div class="button-container">
-        <!-- Replaced inline onclick with data-url attribute -->
         <button class="nav-button" data-url="networkscan.html">Network Scanner</button>
         <button class="nav-button" data-url="filescan.html">File Scan</button>
         <button class="nav-button" data-url="emailscan.html">Email Scanner</button>
         <button class="nav-button" data-url="linkscan.html">Link Scanner</button>
         <button class="nav-button" data-url="cryptoscan.html">Crypto Scanner</button>
       </div>
+
+      <!-- Dark Mode Toggle Button -->
       <button id="darkModeToggle">Toggle Dark Mode</button>
+
+      <!-- New Extra Buttons -->
+      <div class="extra-buttons-container">
+        <button class="extra-button" id="scanAllBtn">Scan All</button>
+        <button class="extra-button" id="stopScanBtn">Stop Scan</button>
+        <button class="extra-button" id="viewLogsBtn">View Logs</button>
+      </div>
     </div>
   </main>
 
@@ -271,6 +281,29 @@
             alert(`Error: Unable to navigate to ${url}`);
           });
       });
+    });
+
+    // EXTRA BUTTON FUNCTIONS
+    const scanAllBtn = document.getElementById('scanAllBtn');
+    const stopScanBtn = document.getElementById('stopScanBtn');
+    const viewLogsBtn = document.getElementById('viewLogsBtn');
+
+    scanAllBtn.addEventListener('click', () => {
+      alert("Initiating scan for all modules...");
+      // TODO: Add real logic for scanning all modules
+      console.log("Scan All triggered.");
+    });
+
+    stopScanBtn.addEventListener('click', () => {
+      alert("Stopping the current scan...");
+      // TODO: Add logic to stop ongoing scans
+      console.log("Stop Scan triggered.");
+    });
+
+    viewLogsBtn.addEventListener('click', () => {
+      alert("Viewing log files...");
+      // TODO: Add logic to display or retrieve logs
+      console.log("View Logs triggered.");
     });
   </script>
 </body>
