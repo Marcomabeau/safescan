@@ -151,8 +151,9 @@
           'Content-Type': 'application/json',
           'API-Key': apiKey
         },
-        body: JSON.stringify({ url: urlToScan, public: 'on' }) 
-        // 'public': 'on' -> results are public; 'off' -> private scan (requires higher privileges).
+        body: JSON.stringify({ url: urlToScan, public: 'on' })
+        // 'public': 'on' => results are publicly visible on urlscan.io
+        // 'public': 'off' => private scan (requires appropriate subscription)
       });
 
       if (!scanResponse.ok) {
@@ -162,7 +163,7 @@
       const scanData = await scanResponse.json();
       console.log('Scan submission response:', scanData);
 
-      // The scanData typically includes "uuid" and an "api" link to fetch the results
+      // The scanData typically includes "uuid" and an "api" link
       const { uuid, api } = scanData;
 
       // ========== 2) WAIT AND RETRIEVE RESULTS ==========
@@ -183,14 +184,11 @@
       console.log('Final scan results:', resultData);
 
       // ========== 3) PARSE AND DISPLAY SOME BASIC INFO ==========
-      // URLScan's data contains detailed info about the site, requests, etc.
-      // We'll show a simplified "verdict" or "score" from the "verdicts" object if it exists.
       let message = '<h3>Scan Results:</h3>';
 
-      // Basic approach: check if there's a "verdicts" object with an "overall" score or malicious status
+      // Check for a "verdicts" object with an "overall" score or malicious flag
       const verdicts = resultData.verdicts?.overall;
       if (verdicts) {
-        // 'score' is an integer (0=clean, higher=more suspicious); 'malicious' is boolean.
         const { score, malicious } = verdicts;
         if (malicious) {
           message += '<p><strong style="color: #FF5252;">Malicious content detected!</strong></p>';
@@ -204,7 +202,7 @@
         message += '<p>No clear verdict found. Check the full report for details.</p>';
       }
 
-      // Optionally, provide a direct link to the public scan result on urlscan.io
+      // Provide a direct link to the public scan result on URLScan
       message += `<p>View full details: 
         <a href="https://urlscan.io/result/${uuid}/" target="_blank">
           https://urlscan.io/result/${uuid}/
@@ -227,3 +225,4 @@
 </script>
 </body>
 </html>
+
