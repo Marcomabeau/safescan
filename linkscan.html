@@ -2,11 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  
-  <!-- Google Adsense Meta Tag -->
   <meta name="google-adsense-account" content="ca-pub-3896416800491281" />
-
-  <!-- Page Title -->
   <title>Link Scanner | Digital Security Center</title>
 
   <!-- Google Analytics -->
@@ -19,24 +15,23 @@
   </script>
 
   <style>
-    /* Dark digital theme */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background: #0d0d0d; /* Very dark background */
-      color: #f5f5f5;      /* Light text color */
+      background: #0d0d0d;
+      color: #f5f5f5;
     }
 
     header, footer {
-      background: #1a1a1a; /* Slightly lighter than body for contrast */
+      background: #1a1a1a;
       padding: 20px;
       text-align: center;
     }
 
     h1 {
       margin: 0;
-      color: #70F8BA; /* Neon-like color to emphasize the “digital” theme */
+      color: #70F8BA;
       font-weight: 400;
       text-shadow: 0 0 5px #70F8BA;
     }
@@ -45,7 +40,7 @@
       max-width: 600px;
       margin: 50px auto;
       padding: 20px;
-      background: #1a1a1a; /* matching the header/footer background */
+      background: #1a1a1a;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(112, 248, 186, 0.2);
     }
@@ -84,8 +79,9 @@
       box-shadow: 0 0 10px rgba(112, 248, 186, 0.3);
       transition: background 0.3s ease;
     }
+
     button:hover {
-      background: #5cd5a0; /* Slightly darker hover color */
+      background: #5cd5a0;
     }
 
     #resultContainer {
@@ -121,23 +117,19 @@
 </div>
 
 <footer>
-  <!-- Same style/theme footer -->
   <p>&copy; 2024 Digital Security Scanner. All rights reserved.</p>
 </footer>
 
 <script>
-  // Button References
   const homeBtn = document.getElementById('homeBtn');
   const scanBtn = document.getElementById('scanBtn');
   const urlInput = document.getElementById('urlInput');
   const resultContainer = document.getElementById('resultContainer');
 
-  // Home button: go back to index.html
   homeBtn.addEventListener('click', () => {
     window.location.href = 'index.html';
   });
 
-  // Scan button: use URLScan.io API
   scanBtn.addEventListener('click', async () => {
     const urlToScan = urlInput.value.trim();
     if (!urlToScan) {
@@ -145,20 +137,16 @@
       return;
     }
 
-    // Clear previous results
     resultContainer.style.display = 'none';
     resultContainer.innerHTML = '';
 
     try {
-      // ===== 1) Submit the URL to URLScan.io =====
       const apiKey = '66cfb86b-d54d-46ed-9a18-f5b583d5b7f8';
       const scanApiUrl = 'https://urlscan.io/api/v1/scan/';
 
-      // Show a loading message
       resultContainer.innerHTML = '<p>Scanning in progress... please wait.</p>';
       resultContainer.style.display = 'block';
 
-      // POST request to start the scan
       const scanResponse = await fetch(scanApiUrl, {
         method: 'POST',
         headers: {
@@ -175,11 +163,9 @@
       const scanData = await scanResponse.json();
       console.log('Scan submission response:', scanData);
 
-      // Grab the "uuid" and the "api" link from the response
       const { uuid, api } = scanData;
 
-      // ===== 2) Wait a few seconds, then fetch the final results =====
-      await new Promise(resolve => setTimeout(resolve, 5000)); // 5s delay
+      await new Promise(resolve => setTimeout(resolve, 5000));
       const resultUrl = api || `https://urlscan.io/api/v1/result/${uuid}`;
       const resultResponse = await fetch(resultUrl, {
         headers: { 'API-Key': apiKey }
@@ -192,10 +178,7 @@
       const resultData = await resultResponse.json();
       console.log('Final scan results:', resultData);
 
-      // ===== 3) Parse and display a basic verdict =====
       let message = '<h3>Scan Results:</h3>';
-
-      // Look for a "verdicts" object with "overall" info
       const verdicts = resultData.verdicts?.overall;
       if (verdicts) {
         const { score, malicious } = verdicts;
@@ -211,7 +194,6 @@
         message += '<p>No clear verdict found. Check the full report for details.</p>';
       }
 
-      // Provide a direct link to the public scan result on URLScan
       message += `<p>View full details:
         <a href="https://urlscan.io/result/${uuid}/" target="_blank">
           https://urlscan.io/result/${uuid}/
@@ -233,3 +215,4 @@
 </script>
 </body>
 </html>
+  
